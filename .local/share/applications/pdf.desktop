@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=PDF reader
+Exec=devour /usr/bin/zathura %u
+# Exec=devour /usr/bin/zathura %u 2>/dev/null

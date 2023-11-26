@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Video
+Exec=mpv --really-quiet %f
+# [Desktop Entry]
+# Type=Application
+# Name=Video viewer
+# # Exec=devour /usr/bin/mpv --really-quiet %f
+# Exec=devour mpv --really-quiet %f
