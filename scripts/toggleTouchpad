@@ -1,0 +1,8 @@
+#!/bin/sh
+
+touchpadId=$(xinput |grep Touchpad|cut -c 55-56) # xinput finds id of touchpad
+status=$(xinput --list $touchpadId| grep disabled ) # finds if touchpad is disbled or not (for toggle)
+
+[ -z $status] && xinput --disable $touchpadId || xinput --enable $touchpadId  #if disable, enable it ; if enable, disable. Toggle.
+
+[ -z $status] && notify-send "Touchpad 🛑" "Touchpad has been disabled" || notify-send "Touchpad ✅" "Touchpad enabled" #send a message notif when it was disabled or enabled.

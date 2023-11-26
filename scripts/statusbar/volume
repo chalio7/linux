@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Prints the current volume or 🔇 if muted.
+
+case $BUTTON in
+	1) pactl set-sink-mute @DEFAULT_SINK@ toggle;;
+	3) notify-send "Volume module" "\- Shows volume 🔊, 🔇 if muted.
+- Middle click to mute.
+- Scroll to change." ;;
+esac
+
+[ $(pamixer --get-mute) = true ] && echo " ﱜ muted " && exit
+
+vol="$(pamixer --get-volume)"
+
+if [ "$vol" -gt "70" ]; then
+	# icon=" 🔊 "
+   icon="    "
+elif [ "$vol" -lt "30" ]; then
+	icon=" 奔  "
+else
+	icon=" 墳  "
+fi
+
+echo "$icon$vol% "

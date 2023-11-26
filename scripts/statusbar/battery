@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Prints all batteries, their percentage remaining and an emoji corresponding
+# to charge status (🔌 for plugged up, 🔋 for discharging on battery, etc.).
+
+case $BUTTON in
+	3) notify-send "Battery module" " : discharging
+ : not charging
+♻ : stagnant charge
+ : charging
+ : charged
+❗: battery very low!"
+esac
+
+acpi | sed "s/Battery [0-9]: //;s/[Dd]ischarging, /   /;s/[Nn]ot charging, /   /;s/[Cc]harging, /  /;s/[Uu]nknown, / ♻<fe0f>/;s/[Ff]ull, /   /;s/, [0-9]*:[0-9]*:[0-9]* .*/ /"

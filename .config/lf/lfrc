@@ -1,0 +1,142 @@
+#basic settings
+
+set cleaner '~/.config/lf/cleaner'
+set previewer '~/.config/lf/scope'
+set icons
+set preview true
+set drawbox true
+set shell zsh
+set shellopts '-eu:--shwordsplit'
+set ifs "\n"
+
+# Custom Functions
+
+cmd open ${{
+   case $(file --mime-type "$(readlink -f $f)" -b) in
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
+	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) devour zathura $fx >/dev/null 2>&1 ;;
+   text/*|application/json|inode/x-empty|application/x-subrip) $EDITOR $fx;;
+	image/x-xcf) gimp $f >/dev/null 2>&1 ;;
+	image/svg+xml) display -- $f ;;
+   image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" |
+		setsid -f devour nsxiv -aio 2>/dev/null | while read -r file; do
+			[ -z "$file" ] && continue
+			lf -remote "send select \"$file\""
+			lf -remote "send toggle"
+		done &
+		;;
+	audio/*) mpv --audio-display=no $f ;;
+	video/*) devour mpv --fullscreen $f -quiet >/dev/null 2>&1 ;;
+   application/pdf|application/vnd.djvu|application/epub*) zathura $fx >/dev/null 2>&1 ;;
+	application/pgp-encrypted) $EDITOR $fx ;;
+   *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+    esac
+}}
+
+cmd mkdir ${{
+  clear; tput cup $(($(tput lines)/4)); tput bold
+  set -f
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+  clear
+}}
+
+cmd mkfile ${{
+  clear; tput cup $(($(tput lines)/4)); tput bold
+  set -f
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+  clear
+}}
+
+cmd setWallpaper ${{
+ cp "$f" ~/.config/wall.png && feh --bg-scale --no-fehbg "$f"
+ }}
+
+cmd delete ${{
+	clear; tput cup $(($(tput lines)/4)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]: "
+	read ans
+	[ $ans = "y" ] && rm -rf $fx
+	clear
+}}
+
+cmd deleteMas ${{
+	clear; tput cup $(($(tput lines)/4)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "SUDO delete?[y/N]: "
+	read ans
+	[ $ans = "y" ] && sudo rm -rf $fx
+	clear
+}}
+
+cmd bulkrename ${{
+    vidir
+}}
+
+cmd unarchive ${{
+  unazip "$f"
+}}
+
+
+cmd archive ${{
+	clear; tput cup $(($(tput lines)/4)); tput bold
+	set -f
+	printf "%s\n\t" "File to zip \"$fx\""
+   fx=$(echo $fx | awk -F "/" '/^\// {print $NF}')
+	printf "Name the zip: "
+	read ans && zip -r $ans $fx
+}}
+
+
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -d "$res" ] ; then
+        cmd="cd"
+    elif [ -f "$res" ] ; then
+        cmd="select"
+    else
+        exit 0
+    fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+
+map f :fzf_jump
+# map <c-f> :fzf_jump
+
+cmd zi ${{
+	result="$(zoxide query -i)"
+	lf -remote "send $id cd $result"
+}}
+
+map z zi
+
+#Mapping/Unmapping
+map x $$f #execute current file
+map X !$f
+map M mkdir
+map v mkfile
+map W setWallpaper
+map F mkfile
+map D delete
+map RD deleteMas
+map U unarchive
+map ZZ archive
+map T tar
+map V bulkrename
+map H cd ~/
+map A cd ~/Downloads/anime
+map C cd ~/.config/
+map P cd /hd/downloads
+map Y $printf "%s" "$fx" | xclip -selection clipboard
+map . set hidden!
+map <enter> shell
+map <esc> quit
+map ZQ quit
+map <f-5> reload
+map u :unselect; clear

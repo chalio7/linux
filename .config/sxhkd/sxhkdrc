@@ -1,0 +1,65 @@
+#screenshoter
+shift + Print
+  screenshoter
+
+#terminal
+super + Return
+	st
+
+#bluetooth
+alt + b
+		bctl
+
+#Move cursor
+super + n
+		moveDesktop
+
+#mount usb
+alt + M
+	mounter
+
+#unmount usb
+alt + U
+	unmounter
+
+#emoji
+alt + e
+	emoji
+
+alt + m
+	double-monitor
+
+#shutdown
+alt + s
+	shutdown-menu
+
+#browser
+alt + w
+	$BROWSER
+
+super F5
+	toggleTouchpad
+
+alt + q
+   passmenu
+
+super + p
+   rofi -show run
+
+# alt+u
+#   setxkbmap us
+#
+# alt+i
+#   setxkbmap -variant intl
+
+#Worktime
+# super + w
+# 	sh $HOME/scripts/worktime/worktime
+
+
+XF86AudioLowerVolume
+		pactl set-sink-volume @DEFAULT_SINK@ -5%;pkill -RTMIN+5 blocks
+XF86AudioRaiseVolume
+		pactl set-sink-volume @DEFAULT_SINK@  +5%;pkill -RTMIN+5 blocks
+XF86AudioMute
+		pactl set-sink-mute @DEFAULT_SINK@ toggle;pkill -RTMIN+5 blocks

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+dat=$( date "+ (%a)  %d / %b / %Y  ||  %I:%M %p " )
+printf "    $dat "
+
+case $BUTTON in
+	3) notify-send "        Month" "$(cal --color=always | sed "s/..7m/<b><span color=\"red\">/;s/..27m/<\/span><\/b>/")";;
+	4) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac

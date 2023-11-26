@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ima=$( fd . ~/wallpaper/ | shuf -n 1 )
+xwallpaper --zoom $ima
+cp $ima ~/.config/wall.png

@@ -1,0 +1,3 @@
+#!/bin/sh
+bright=$(xbacklight|sed "s/\.[0-9]*//")
+echo " 🔆$bright "

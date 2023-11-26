@@ -1,0 +1,25 @@
+#!/bin/sh
+
+yay -Scc
+sudo journalctl --vacuum-size=50M
+sudo rm -rf /tmp/*
+rm -rf ~/.cache/thumbnails/*
+rm -rf ~/.cache/lf/*
+
+
+# Delete orphans
+orphans=$(yay -Qtdq)
+
+if [ -n "$orphans" ]; then
+
+   yay -Rns $(yay -Qtdq)
+   echo "\nOrphans deleted"
+
+
+else
+   echo "\nNo orphans found"
+
+fi
+$SHELL
+
+notify-send "Cleaner" "Your system has been cleaned 🧹"

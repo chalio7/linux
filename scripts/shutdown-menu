@@ -1,0 +1,4 @@
+#!/bin/sh
+
+off=$(printf "Shutdown\\nReboot" | dmenu -i -p "Choose one")
+[ "$off" = "Shutdown" ] && sudo shutdown now || [ "$off" = "Reboot" ] && sudo shutdown -r now || exit

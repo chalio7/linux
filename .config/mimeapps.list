@@ -1,0 +1,21 @@
+[Default Applications]
+text/x-shellscript=text.desktop;
+application/javascript=text.desktop;
+application/x-script.python=text.desktop;
+text/json=text.desktop;
+text/plain=text.desktop;
+image/png=img.desktop;
+image/jpeg=img.desktop;
+image/gif=img.desktop;
+video/x-matroska=video.desktop
+video/mp4=video.desktop
+application/postscript=pdf.desktop;
+application/pdf=pdf.desktop;
+inode/directory=file.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-S0VSZ1.desktop;
+x-scheme-handler/magnet=torrent.desktop;
+application/x-bittorrent=torrent.desktop;
+x-scheme-handler/etcher=balena-etcher.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-S0VSZ1.desktop;
