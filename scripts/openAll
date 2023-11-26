@@ -1,0 +1,16 @@
+#!/bin/sh
+
+file=$(fd -H --type file . / | fzf)
+
+if [ -n "$file" ]; then
+  if [ "$1" = "-f" ]; then
+    lfcd "$(dirname "$file")"
+  else
+    cd "$(dirname "$file")"
+    xdg-open "$(basename "$file")"
+  fi
+else
+  echo "No file selected."
+fi
+
+$SHELL
